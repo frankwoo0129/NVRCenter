@@ -1,0 +1,25 @@
+{
+  "name": "NVRCenter",
+  "main": "index.js",
+  "version": "0.0.1",
+  "authors": [
+    "FrankWOO <frankwoo.scc@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery-ui": "~1.11.2",
+    "fullcalendar": "~2.2.6",
+    "jquery": "1.9",
+    "videojs-contrib-hls": "~0.10.3",
+    "videojs": "~4.11.4",
+    "bootstrap": "~3.3.2",
+    "underscore": "~1.7.0"
+  }
+}

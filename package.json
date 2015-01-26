@@ -1,0 +1,19 @@
+{
+  "name": "NVRCenter",
+  "version": "1.0.0",
+  "description": "NVRCenter Web Control",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "NVRCenter",
+    "nodejs"
+  ],
+  "author": "FrankWOO C.C. Su",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.11.1",
+    "hbs": "^2.8.0"
+  }
+}
