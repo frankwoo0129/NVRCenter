@@ -1,7 +1,9 @@
+/*jslint node: true */
+/*jslint nomen: true */
+
 var fs = require('fs');
 var path = require('path');
 var express = require('express');
-
 var root = express.Router();
 
 //var router_videojs = express.Router();

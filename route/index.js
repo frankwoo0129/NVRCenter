@@ -1,23 +1,23 @@
+/*jslint node: true */
+/*jslint nomen: true */
+
+"use strict";
+
 var fs = require('fs');
 var path = require('path');
 var express = require('express');
-var hbs = require('hbs');
 
+var auth = require('./auth');
 var lib = require('./lib');
 
-module.exports = function(app) {
-	app.use(function(req, res, next) {
-		if (req.session.itema) {
-			console.log(req.session.itema);
-		} else {
-			req.session.itema = '2222';
-		}
-		console.log(JSON.stringify(req.session));
-		next();
-	});
+module.exports = function (app) {
 	app.use('/lib', lib);
-	app.use(express.static(path.join(__dirname, '../dist/')));
-	app.get('/', function(req, res) {
+	app.use(express.Router().use(express.static(path.join(__dirname, '../dist/'))));
+	app.get('/', function (req, res) {
 		res.render('index');
 	});
+	app.get('/monitor', function (req, res) {
+		res.render('monitor');
+	});
+	app.use(auth);
 };
