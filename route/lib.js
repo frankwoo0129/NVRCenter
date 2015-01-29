@@ -14,7 +14,7 @@ var root = express.Router();
 //router_videojs_contrib_hls.use(express.static(path.join(__dirname, '../bower_components/videojs-contrib-hls/src/')));
 //router_pkcs7.use(express.static(path.join(__dirname, '../bower_components/videojs-contrib-hls/node_modules/pkcs7/dist/')));
 
-root.use('/videojs', express.Router().use(express.static(path.join(__dirname, '../bower_components/video.js/dist/video-js/'))));
+root.use('/videojs', express.Router().use(express.static(path.join(__dirname, '../bower_components/videojs/dist/video-js/'))));
 root.use('/videojs-contrib-media-sources', express.Router().use(express.static(path.join(__dirname, '../bower_components/videojs-contrib-media-sources/src/'))));
 root.use('/videojs-contrib-hls', express.Router().use(express.static(path.join(__dirname, '../bower_components/videojs-contrib-hls/src/'))));
 root.use('/bootstrap', express.Router().use(express.static(path.join(__dirname, '../bower_components/bootstrap/dist/'))));

@@ -1,47 +1,61 @@
 /*global $, jQuery, alert*/
+/*global videojs, videojs, alert*/
 
 (function () {
     'use strict';
 
-    var URL_CONFIGLIST = "./Servlet/GetConfigServlet",
-        URL_JPEG = "./Servlet/GetJPEGServlet?address={address}&ts={time}",
-        modal_timer = null,
-        timer = {},
+    var URL_CONFIGLIST = "./list",
+        URL_JPEG = "./monitor/{address}/out.m3u8",
+        modal_player,
+        players = {},
         SIZE = 0,
         PAGE = 0;
 
     function showSingleCamera() {
-        modal_timer = setInterval(function () {
-            var timestamp = Math.floor(+new Date()),
-                address = $('.zoomin').find('.modal-header').attr('title');
-            $('.zoomin').find('.modal-body img').attr('src', URL_JPEG.replace("{address}", address).replace("{time}", timestamp));
-        }, 500);
+        var address = $('.zoomin').find('.modal-header').attr('title'),
+            video = $('<video id="modal_video" class="video-js vjs-default-skin" width="100%" autoplay><source src="' + URL_JPEG.replace("{address}", address) + '" type="application/x-mpegURL"></video>');
+        $('.modal .modal-body').html(video);
+        //$('#modal_video').height($('#modal_video').width() * 9 / 16);
+        modal_player = videojs('modal_video', function () {
+            this.play();
+        });
     }
 
     function hideSingleCamera() {
-        clearInterval(modal_timer);
-        modal_timer = null;
+        modal_player.dispose();
+        modal_player = null;
     }
 
     function showMultiCamera(obj) {
         $('#' + obj.html() + ' .thumbnail').each(function () {
-            var address = $(this).attr('id'),
-                self = $(this),
-                interval = setInterval(function () {
-                    if (self.is(':visible')) {
-                        var timestamp = Math.floor(+new Date());
-                        self.find('img').attr('src', URL_JPEG.replace("{address}", address).replace("{time}", timestamp));
-                    }
-                }, 500);
-            timer[address] = interval;
+            var self = $(this),
+                address = $(this).attr('id'),
+                title = $(this).attr('title'),
+                h5 = $('<h5>' + title + '</h5>');
+                //video = $('<video id="video_' + address + '" class="video-js vjs-default-skin" width="100%" autoplay><source src="' + URL_JPEG.replace("{address}", address) + '" type="application/x-mpegURL"></video>');
+            //self.html(video);
+            self.append(h5);
+            
+//            if (self.is(':visible')) {
+//                modal_player = videojs('video_' + address, function () {
+//                    this.play();
+//                });
+//            }
         });
     }
     
     function hideMultiCamera() {
-        Object.keys(timer).forEach(function (key) {
-            clearInterval(timer[key]);
-            delete timer[key];
-        });
+       // $('.thumbnail').each(function () {
+            //var address = $(this).attr('id');
+                //modal_player = videojs('video_' + address, function () {
+                    //this.dispose();
+                //});
+            //$(this).html('');
+        //});
+        
+//        Object.keys(players).forEach(function (key) {
+//            delete players[key];
+//        });
     }
     
     function showPage(page, size) {
@@ -133,8 +147,8 @@
                         jpeg.attr('src', URL_JPEG.replace("{address}", inner.address));
                         innerdiv.find('a').attr('title', inner.title);
                         innerdiv.find('a').attr('id', inner.address);
-                        innerdiv.find('.thumbnail').append(jpeg);
-                        innerdiv.find('.thumbnail').append(h5);
+                        //innerdiv.find('.thumbnail').append(jpeg);
+                        //innerdiv.find('.thumbnail').append(h5);
                         div.find('.row').append(innerdiv);
                     });
                     

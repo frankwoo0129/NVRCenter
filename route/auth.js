@@ -37,7 +37,7 @@ root.post('/auth', function (req, res) {
 
 root.use(function (req, res, next) {
 	if (!req.session.user) {
-		next('no auth');
+		res.status(401).json({msg: 'no auth'});
     } else {
 		next();
     }

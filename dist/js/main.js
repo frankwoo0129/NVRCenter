@@ -2,7 +2,6 @@
 /*global hideMultiCamera, function, alert*/
 /*global hideSingleCamera, function, alert*/
 
-
 (function () {
     'use strict';
     var URL_AUTH = "./auth";
