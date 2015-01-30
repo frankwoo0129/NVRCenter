@@ -39,19 +39,22 @@ module.exports = function (app) {
                 var obj = JSON.parse(chunk),
                     ret = {},
                     all = {},
-                    list = [];
+                    list = [],
+                    i;
                 
                 ret.code = 200;
                 ret.list = [];
                 
                 // Group
                 all.group = 'all';
-                Object.keys(obj).forEach(function (address) {
-                    var o = {};
-                    o.address = address;
-                    o.title = obj[address].title;
-                    list.push(o);
-                });
+                for (i = 0; i < 1; i = i + 1) {
+                    Object.keys(obj).forEach(function (address) {
+                        var o = {};
+                        o.address = address;
+                        o.title = obj[address].title;
+                        list.push(o);
+                    });
+                }
                 all.list = list;
                 
                 ret.list.push(all);

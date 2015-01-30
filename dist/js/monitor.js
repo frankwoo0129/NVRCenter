@@ -1,61 +1,72 @@
 /*global $, jQuery, alert*/
 /*global videojs, videojs, alert*/
+/*jslint plusplus: true */
 
 (function () {
     'use strict';
 
     var URL_CONFIGLIST = "./list",
         URL_JPEG = "./monitor/{address}/out.m3u8",
-        modal_player,
         players = {},
         SIZE = 0,
         PAGE = 0;
 
+    function clearAllTimeout() {
+        var id = window.setTimeout(function () {}, 0);
+        while (id > 0) {
+            // will do nothing if no timeout with id is present
+            window.clearTimeout(id);
+            id = id - 1;
+        }
+    }
+    
     function showSingleCamera() {
         var address = $('.zoomin').find('.modal-header').attr('title'),
-            video = $('<video id="modal_video" class="video-js vjs-default-skin" width="100%" autoplay><source src="' + URL_JPEG.replace("{address}", address) + '" type="application/x-mpegURL"></video>');
+            video = $('<video id="modal_video" class="video-js vjs-default-skin" width="100%"><source src="' + URL_JPEG.replace("{address}", address) + '" type="application/x-mpegURL"></video>');
         $('.modal .modal-body').html(video);
-        //$('#modal_video').height($('#modal_video').width() * 9 / 16);
-        modal_player = videojs('modal_video', function () {
+        
+        videojs("modal_video").ready(function () {
             this.play();
+            $('.video-js').height($('.video-js').width() * 9 / 16);
         });
     }
 
     function hideSingleCamera() {
-        modal_player.dispose();
-        modal_player = null;
+        videojs("modal_video").dispose();
     }
 
     function showMultiCamera(obj) {
+        var count = 0;
         $('#' + obj.html() + ' .thumbnail').each(function () {
-            var self = $(this),
-                address = $(this).attr('id'),
+            var n = count++,
+                self = $(this),
+                address = $(this).attr('address'),
                 title = $(this).attr('title'),
-                h5 = $('<h5>' + title + '</h5>');
-                //video = $('<video id="video_' + address + '" class="video-js vjs-default-skin" width="100%" autoplay><source src="' + URL_JPEG.replace("{address}", address) + '" type="application/x-mpegURL"></video>');
-            //self.html(video);
+                h5 = $('<h5>' + title + '</h5>'),
+                video = $('<video id="video_' + n + '_' + address + '" class="video-js vjs-default-skin" width="100%" autoplay><source src="' + URL_JPEG.replace("{address}", address) + '" type="application/x-mpegURL"></video>');
+            
+            self.html(video);
             self.append(h5);
             
-//            if (self.is(':visible')) {
-//                modal_player = videojs('video_' + address, function () {
-//                    this.play();
-//                });
-//            }
+            videojs('video_' + n + '_' + address).ready(function () {
+                this.play();
+                $('.video-js').height(self.width() * 9 / 16);
+            });
+                        
+            $('.video-js').height($('.video-js').width() * 9 / 16);
         });
     }
     
     function hideMultiCamera() {
-       // $('.thumbnail').each(function () {
-            //var address = $(this).attr('id');
-                //modal_player = videojs('video_' + address, function () {
-                    //this.dispose();
-                //});
-            //$(this).html('');
-        //});
+        $('.thumbnail .video-js').each(function () {
+            var id = $(this).attr('id'),
+                player = videojs(id);
+            
+            player.dispose();
+            $(this).parent('.thumbnail').html('');
+        });
         
-//        Object.keys(players).forEach(function (key) {
-//            delete players[key];
-//        });
+        clearAllTimeout();
     }
     
     function showPage(page, size) {
@@ -119,6 +130,7 @@
     $('#myTab .dropdown-menu a').click(function (e) {
         SIZE = $(this).attr('id');
         showPage(0, SIZE);
+        $('.video-js').height($('.video-js').width() * 9 / 16);
     });
     
     $('.pager .previous').click(function () {
@@ -144,9 +156,9 @@
                             innerdiv = $('<div class="col-md-2"><a class="thumbnail" data-toggle="modal" data-target=".zoomin"></a></div>'),
                             jpeg = $('<img alt="...">');
                         h5.html(inner.title);
-                        jpeg.attr('src', URL_JPEG.replace("{address}", inner.address));
+                        //jpeg.attr('src', URL_JPEG.replace("{address}", inner.address));
                         innerdiv.find('a').attr('title', inner.title);
-                        innerdiv.find('a').attr('id', inner.address);
+                        innerdiv.find('a').attr('address', inner.address);
                         //innerdiv.find('.thumbnail').append(jpeg);
                         //innerdiv.find('.thumbnail').append(h5);
                         div.find('.row').append(innerdiv);
@@ -184,7 +196,11 @@
             $('.thumbnail').click(function (e) {
                 e.preventDefault();
                 $('.zoomin .modal-title').html($(this).attr('title'));
-                $('.zoomin .modal-header').attr("title", $(this).attr('id'));
+                $('.zoomin .modal-header').attr("title", $(this).attr('address'));
+            });
+            
+            $(window).resize(function () {
+                $('.video-js').height($('.video-js').width() * 9 / 16);
             });
         });
     });

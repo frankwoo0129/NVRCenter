@@ -1,10 +1,18 @@
 /*global $, jQuery, alert*/
-/*global hideMultiCamera, function, alert*/
-/*global hideSingleCamera, function, alert*/
+
 
 (function () {
     'use strict';
     var URL_AUTH = "./auth";
+    
+    function clearAllTimeout() {
+        var id = window.setTimeout(function () {}, 0);
+        while (id > 0) {
+            // will do nothing if no timeout with id is present
+            window.clearTimeout(id);
+            id = id - 1;
+        }
+    }
 
     function checklogin(callback) {
         $.getJSON(URL_AUTH, function (data) {
@@ -36,10 +44,7 @@
     });
 
     $('#navbar a').on('hide.bs.tab', function (e) {
-        if (e.target.hash === '#monitor') {
-            hideMultiCamera();
-            hideSingleCamera();
-        }
+        clearAllTimeout();
         $(e.target.hash).html("");
     });
 	

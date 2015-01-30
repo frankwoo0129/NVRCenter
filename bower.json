@@ -14,12 +14,11 @@
     "tests"
   ],
   "dependencies": {
-    "jquery-ui": "~1.11.2",
     "fullcalendar": "~2.2.6",
-    "jquery": "1.9",
+    "underscore": "~1.7.0",
     "videojs-contrib-hls": "~0.10.3",
-    "videojs": "~4.11.4",
-    "bootstrap": "~3.3.2",
-    "underscore": "~1.7.0"
-  }
+    "jquery-ui": "~1.11.2",
+    "videojs": "~4.11.4"
+  },
+  "homepage": "https://github.com/frankwoo0129/NVRCenter"
 }
