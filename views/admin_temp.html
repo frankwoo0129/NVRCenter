@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Admin</title>
+        <link href="./css/admin.css" rel="stylesheet">
+    </head>
+    
+    <body>
+        <div class="container">
+            <div class="row">
+                <div id="source" class="col-xs-5 col-md-5">
+                    <div class="panel panel-info" id="1F">
+                        <div class="panel-heading">1F</div>
+                        <div class="panel-body">
+                            <ul id="1F-content" class="list-group">
+                                <li class="list-group-item">1F-01</li>
+                                <li class="list-group-item">1F-02</li>
+                                <li class="list-group-item">1F-03</li>
+                                <li class="list-group-item">1F-04</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="panel panel-info" id="2F">
+                        <div class="panel-heading">2F</div>
+                        <div class="panel-body">
+                            <ul id="2F-content" class="list-group">
+                                <li class="list-group-item">2F-01</li>
+                                <li class="list-group-item">2F-02</li>
+                                <li class="list-group-item">2F-03</li>
+                                <li class="list-group-item">2F-04</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-xs-2 col-md-2">
+                    <button id="importAll" type="button" class="btn btn-default btn-block">&gt;&gt;</button>
+                    <button id="import" type="button" class="btn btn-default btn-block">&gt;</button>
+                    <button id="export" type="button" class="btn btn-default btn-block">&lt;</button>
+                    <button id="exportAll" type="button" class="btn btn-default btn-block">&lt;&lt;</button>
+                </div>
+                
+                <div class="col-xs-5 col-md-5">
+                    <div class="panel panel-info" id="custom">
+                        <div class="panel-heading">
+                            <label for="inputUser">自訂群組</label>
+                            <input type="text" id="groupName" class="form-control" placeholder="群組名稱..." required>
+                        </div>
+                        <div class="panel-body"><ul id="custom-content" class="list-group connectedSortable"></ul></div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        <script src="./js/admin.js"></script>
+    </body>
+</html>

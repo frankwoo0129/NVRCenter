@@ -18,6 +18,7 @@ root.use('/videojs', express.Router().use(express.static(path.join(__dirname, '.
 root.use('/videojs-contrib-media-sources', express.Router().use(express.static(path.join(__dirname, '../bower_components/videojs-contrib-media-sources/src/'))));
 root.use('/videojs-contrib-hls', express.Router().use(express.static(path.join(__dirname, '../bower_components/videojs-contrib-hls/src/'))));
 root.use('/bootstrap', express.Router().use(express.static(path.join(__dirname, '../bower_components/bootstrap/dist/'))));
+root.use('/bootstrap-treeview', express.Router().use(express.static(path.join(__dirname, '../bower_components/bootstrap-treeview/dist/'))));
 root.use('/fullcalendar', express.Router().use(express.static(path.join(__dirname, '../bower_components/fullcalendar/dist/'))));
 root.use('/jquery', express.Router().use(express.static(path.join(__dirname, '../bower_components/jquery/'))));
 root.use('/jquery-ui', express.Router().use(express.static(path.join(__dirname, '../bower_components/jquery-ui/'))));

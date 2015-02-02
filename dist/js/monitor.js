@@ -1,12 +1,12 @@
 /*global $, jQuery, alert*/
 /*global videojs, videojs, alert*/
+/*global URL_CONFIGLIST, list, alert*/
 /*jslint plusplus: true */
 
 (function () {
     'use strict';
 
-    var URL_CONFIGLIST = "./list",
-        URL_JPEG = "./monitor/{address}/out.m3u8",
+    var URL_JPEG = "./monitor/{address}/out.m3u8",
         players = {},
         SIZE = 0,
         PAGE = 0;
@@ -43,7 +43,7 @@
                 address = $(this).attr('address'),
                 title = $(this).attr('title'),
                 h5 = $('<h5>' + title + '</h5>'),
-                video = $('<video id="video_' + n + '_' + address + '" class="video-js vjs-default-skin" width="100%" autoplay><source src="' + URL_JPEG.replace("{address}", address) + '" type="application/x-mpegURL"></video>');
+                video = $('<video id="video_' + n + '_' + address + '" class="video-js vjs-default-skin" width="100%"><source src="' + URL_JPEG.replace("{address}", address) + '" type="application/x-mpegURL"></video>');
             
             self.html(video);
             self.append(h5);
@@ -143,32 +143,28 @@
     
     $(document).ready(function () {
         $.getJSON(URL_CONFIGLIST, function (data) {
-            if (data.code === 200) {
-                data.list.forEach(function (obj, index, list) {
-                    var li = $('<li role="presentation" class="pull-left"><a></a></li>'),
-                        div = $('<div role="tabpanel" class="tab-pane"><div class="row"></div></div>');
-                    li.find('a').html(obj.group);
-                    li.find('a').attr('href', '#' + obj.group);
-                    $('#myTab').append(li);
-                    div.attr('id', obj.group);
-                    obj.list.forEach(function (inner, innerindex, innerlist) {
-                        var h5 = $('<h5></h5>'),
-                            innerdiv = $('<div class="col-md-2"><a class="thumbnail" data-toggle="modal" data-target=".zoomin"></a></div>'),
-                            jpeg = $('<img alt="...">');
-                        h5.html(inner.title);
-                        //jpeg.attr('src', URL_JPEG.replace("{address}", inner.address));
-                        innerdiv.find('a').attr('title', inner.title);
-                        innerdiv.find('a').attr('address', inner.address);
-                        //innerdiv.find('.thumbnail').append(jpeg);
-                        //innerdiv.find('.thumbnail').append(h5);
-                        div.find('.row').append(innerdiv);
-                    });
-                    
-                    $('.container .tab-content').append(div);
+            data.forEach(function (obj, index, list) {
+                var li = $('<li role="presentation" class="pull-left"><a></a></li>'),
+                    div = $('<div role="tabpanel" class="tab-pane"><div class="row"></div></div>');
+                li.find('a').html(obj.group);
+                li.find('a').attr('href', '#' + obj.group);
+                $('#myTab').append(li);
+                div.attr('id', obj.group);
+                obj.list.forEach(function (inner, innerindex, innerlist) {
+                    var h5 = $('<h5></h5>'),
+                        innerdiv = $('<div class="col-md-2"><a class="thumbnail" data-toggle="modal" data-target=".zoomin"></a></div>'),
+                        jpeg = $('<img alt="...">');
+                    h5.html(inner.title);
+                    //jpeg.attr('src', URL_JPEG.replace("{address}", inner.address));
+                    innerdiv.find('a').attr('title', inner.title);
+                    innerdiv.find('a').attr('address', inner.address);
+                    //innerdiv.find('.thumbnail').append(jpeg);
+                    //innerdiv.find('.thumbnail').append(h5);
+                    div.find('.row').append(innerdiv);
                 });
-            } else {
-                alert(JSON.stringify(data));
-            }
+                    
+                $('.container .tab-content').append(div);
+            });
         }).fail(function (data) {
             if (data.responseJSON) {
                 alert(JSON.stringify(data.responseJSON));

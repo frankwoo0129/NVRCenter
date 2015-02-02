@@ -21,6 +21,14 @@ module.exports = function (app) {
     app.get('/monitor', function (req, res) {
 		res.render('monitor');
 	});
+    
+    app.get('/admin', function (req, res) {
+        res.render('admin');
+    });
+    
+    app.get('/video', function (req, res) {
+        res.render('video');
+    });
 	    
     app.use(auth);
     
@@ -37,14 +45,11 @@ module.exports = function (app) {
             res_from_service.setEncoding('utf8');
             res_from_service.on('data', function (chunk) {
                 var obj = JSON.parse(chunk),
-                    ret = {},
                     all = {},
                     list = [],
+                    ret = [],
                     i;
-                
-                ret.code = 200;
-                ret.list = [];
-                
+                                
                 // Group
                 all.group = 'all';
                 for (i = 0; i < 1; i = i + 1) {
@@ -56,8 +61,7 @@ module.exports = function (app) {
                     });
                 }
                 all.list = list;
-                
-                ret.list.push(all);
+                ret.push(all);
                 res.json(ret);
             });
         }).end();

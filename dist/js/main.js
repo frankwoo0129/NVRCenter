@@ -1,9 +1,11 @@
 /*global $, jQuery, alert*/
 
+var URL_AUTH = "./auth";
+var URL_CONFIGLIST = "./list";
 
 (function () {
     'use strict';
-    var URL_AUTH = "./auth";
+    
     
     function clearAllTimeout() {
         var id = window.setTimeout(function () {}, 0);
@@ -40,6 +42,7 @@
     $('#navbar a').on('show.bs.tab', function (e) {
         //	alert($(e.target.hash).attr('id') + ' show');
         var timestamp = Math.floor(+new Date());
+        console.log(e.target.hash);
         $(e.target.hash).load($(e.target.hash).attr('id') + '?ts=' + timestamp);
     });
 
