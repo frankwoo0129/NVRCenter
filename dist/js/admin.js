@@ -4,12 +4,18 @@
 (function () {
     "use strict";
     var grouplist;
+    
+    $('#myTab .pull-left a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+    
     $.getJSON(URL_CONFIGLIST, function (data) {
         grouplist = [];
         data.forEach(function (obj, index, list) {
             var group = {};
             group.text = obj.group;
-            group.selectable = false;
+            group.selectable = true;
             group.nodes = [];
             obj.list.forEach(function (innerobj, innerindex, innerlist) {
                 var camera = {};
@@ -32,10 +38,11 @@
     }).complete(function () {
         if (grouplist.length === 0) {
             alert("No IPCamera");
+        } else {
+            $('#treelist').treeview({data: grouplist, levels: 0}).disableSelection();
+            $('#treelist').on('nodeSelected', function (event, node) {
+                    
+            });
         }
-        $('#treelist').treeview({data: grouplist, levels: 0});
-        $('#treelist').on('nodeSelected', function (event, node) {
-                        
-        });
     });
 }());

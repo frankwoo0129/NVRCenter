@@ -22,7 +22,9 @@
     
     function showSingleCamera() {
         var address = $('.zoomin').find('.modal-header').attr('title'),
-            video = $('<video id="modal_video" class="video-js vjs-default-skin" width="100%"><source src="' + URL_JPEG.replace("{address}", address) + '" type="application/x-mpegURL"></video>');
+            url = URL_JPEG.replace("{address}", address),
+            video = $('<video id="modal_video" class="video-js vjs-default-skin" width="100%"><source type="application/x-mpegURL"></video>');
+        video.find('source').attr('src', url);
         $('.modal .modal-body').html(video);
         
         videojs("modal_video").ready(function () {
@@ -141,63 +143,65 @@
         showPage(PAGE + 1, SIZE);
     });
     
-    $(document).ready(function () {
-        $.getJSON(URL_CONFIGLIST, function (data) {
-            data.forEach(function (obj, index, list) {
-                var li = $('<li role="presentation" class="pull-left"><a></a></li>'),
-                    div = $('<div role="tabpanel" class="tab-pane"><div class="row"></div></div>');
-                li.find('a').html(obj.group);
-                li.find('a').attr('href', '#' + obj.group);
-                $('#myTab').append(li);
-                div.attr('id', obj.group);
-                obj.list.forEach(function (inner, innerindex, innerlist) {
-                    var h5 = $('<h5></h5>'),
-                        innerdiv = $('<div class="col-md-2"><a class="thumbnail" data-toggle="modal" data-target=".zoomin"></a></div>'),
-                        jpeg = $('<img alt="...">');
-                    h5.html(inner.title);
-                    //jpeg.attr('src', URL_JPEG.replace("{address}", inner.address));
-                    innerdiv.find('a').attr('title', inner.title);
-                    innerdiv.find('a').attr('address', inner.address);
-                    //innerdiv.find('.thumbnail').append(jpeg);
-                    //innerdiv.find('.thumbnail').append(h5);
-                    div.find('.row').append(innerdiv);
-                });
-                    
-                $('.container .tab-content').append(div);
-            });
-        }).fail(function (data) {
-            if (data.responseJSON) {
-                alert(JSON.stringify(data.responseJSON));
-            } else {
-                alert("Server Error");
-            }
-        }).always(function () {
-            $('#myTab .pull-left a').click(function (e) {
-                e.preventDefault();
-                $(this).tab('show');
-            });
+    $.getJSON(URL_CONFIGLIST, function (data) {
+        data.forEach(function (obj, index, list) {
+            var li = $('<li role="presentation" class="pull-left"><a></a></li>'),
+                div = $('<div role="tabpanel" class="tab-pane"><div class="row"></div></div>');
+            li.find('a').html(obj.group);
+            li.find('a').attr('href', '#' + obj.group);
+            $('#myTab').append(li);
             
-            $('#myTab .pull-left a').on('shown.bs.tab', function () {
-                showMultiCamera($(this));
-                SIZE = 3;
-                showPage(0, SIZE);
+            div.attr('id', obj.group);
+            obj.list.forEach(function (inner, innerindex, innerlist) {
+                var h5 = $('<h5></h5>'),
+                    innerdiv = $('<div class="col-md-2"><a class="thumbnail" data-toggle="modal" data-target=".zoomin"></a></div>'),
+                    jpeg = $('<img alt="...">');
+                h5.html(inner.title);
+                //jpeg.attr('src', URL_JPEG.replace("{address}", inner.address));
+                innerdiv.find('a').attr('title', inner.title);
+                innerdiv.find('a').attr('address', inner.address);
+                //innerdiv.find('.thumbnail').append(jpeg);
+                //innerdiv.find('.thumbnail').append(h5);
+                div.find('.row').append(innerdiv);
             });
+                
+            $('.container .tab-content').append(div);
+        });
+    }).fail(function (data) {
+        if (data.responseJSON) {
+            alert(JSON.stringify(data.responseJSON));
+        } else {
+            alert("Server Error");
+        }
+    }).always(function () {
+        $('#myTab .pull-left a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+        
+        $('#myTab .pull-left a').on('shown.bs.tab', function () {
+            showMultiCamera($(this));
+            SIZE = 3;
+            showPage(0, SIZE);
+        });
+        
+        $('#myTab .pull-left a').on('hide.bs.tab', function () {
+            hideMultiCamera();
+        });
             
-            $('#myTab .pull-left a').on('hide.bs.tab', function () {
-                hideMultiCamera();
-            });
-            
-            $('#myTab .pull-left a:last').tab('show');
-            
-            $('.thumbnail').click(function (e) {
-                e.preventDefault();
-                $('.zoomin .modal-title').html($(this).attr('title'));
-                $('.zoomin .modal-header').attr("title", $(this).attr('address'));
-            });
-            
-            $(window).resize(function () {
-                $('.video-js').height($('.video-js').width() * 9 / 16);
-            });
+        $('#myTab .pull-left a:last').tab('show');
+        
+        $('.thumbnail').click(function (e) {
+            e.preventDefault();
+            $('.zoomin .modal-title').html($(this).attr('title'));
+            $('.zoomin .modal-header').attr("title", $(this).attr('address'));
+        });
+        
+        $('.video-js').height($('.video-js').width() * 9 / 16);
+        
+        $(window).resize(function () {
+            $('.video-js').height($('.video-js').width() * 9 / 16);
         });
     });
+    
 }());

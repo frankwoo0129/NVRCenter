@@ -13,12 +13,17 @@
     "test",
     "tests"
   ],
+  "homepage": "https://github.com/frankwoo0129/NVRCenter",
   "dependencies": {
+    "jquery-ui": "~1.11.2",
+    "bootstrap-treeview": "~1.0.1",
+    "bootstrap": "~3.3.2",
+    "jquery": "~1.9.1",
     "fullcalendar": "~2.2.6",
     "underscore": "~1.7.0",
-    "videojs-contrib-hls": "~0.10.3",
-    "jquery-ui": "~1.11.2",
-    "videojs": "~4.11.4"
-  },
-  "homepage": "https://github.com/frankwoo0129/NVRCenter"
+    "seiyria-bootstrap-slider": "~4.4.1",
+    "videojs-contrib-media-sources": "~0.3.1",
+    "videojs": "~4.11.4",
+    "videojs-contrib-hls": "~0.10.3"
+  }
 }

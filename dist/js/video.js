@@ -46,9 +46,7 @@
                 var camera = {};
                 camera.text = innerobj.title;
                 camera.number = innerobj.number;
-                camera.model = innerobj.model;
                 camera.address = innerobj.address;
-                camera.group = obj.group;
                 camera.selectable = true;
                 group.nodes.push(camera);
             });
@@ -63,31 +61,32 @@
     }).complete(function () {
         if (grouplist.length === 0) {
             alert("No IPCamera");
-        }
-        $('#treelist').treeview({data: grouplist, levels: 0});
-        $('#treelist').on('nodeSelected', function (event, node) {
-            selectedNode = node;
-            $('#calendar').fullCalendar('removeEvents');
-            loadEvent();
-        });
-        $('#calendar').fullCalendar({
-            header: {
-                left:   'prev,next',
-                center: 'title',
-                right:  'today month'
-            },
-            selectable: true,
-            select: function (start, end) {
-                $('#calendar').fullCalendar('gotoDate', start);
-                $('#calendar').fullCalendar('changeView', 'basicDay');
-            },
-            viewRender: function (view, element) {
-                loadEvent();
-            },
-            viewDestroy: function (view, element) {
+        } else {
+            $('#treelist').treeview({data: grouplist, levels: 0}).disableSelection();
+            $('#treelist').on('nodeSelected', function (event, node) {
+                selectedNode = node;
                 $('#calendar').fullCalendar('removeEvents');
-            }
-        });
-        
+                loadEvent();
+            });
+            
+            $('#calendar').fullCalendar({
+                header: {
+                    left:   'prev,next',
+                    center: 'title',
+                    right:  'today month'
+                },
+                selectable: true,
+                select: function (start, end) {
+                    $('#calendar').fullCalendar('gotoDate', start);
+                    $('#calendar').fullCalendar('changeView', 'basicDay');
+                },
+                viewRender: function (view, element) {
+                    loadEvent();
+                },
+                viewDestroy: function (view, element) {
+                    $('#calendar').fullCalendar('removeEvents');
+                }
+            });
+        }
     });
 }());
