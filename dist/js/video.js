@@ -6,14 +6,14 @@
     "use strict";
     
     var URL_VIDEOLIST = "./Servlet/GetVideoServlet",
-        selectedNode = null,
+        selectedNode,
         grouplist;
 
     function loadEvent() {
         var view = $('#calendar').fullCalendar('getView'),
             url;
         
-        if (view && view.name === 'basicDay' && selectedNode) {
+        if (view && view.name === 'basicDay') {
             url = URL_VIDEOLIST + "/" + selectedNode.address + "/" + view.start.format('YYYYMMdd') + "/0000/2400";
             $.getJSON(url, function (data) {
                 if (data.code === 200) {
@@ -77,11 +77,15 @@
                 },
                 selectable: true,
                 select: function (start, end) {
-                    $('#calendar').fullCalendar('gotoDate', start);
-                    $('#calendar').fullCalendar('changeView', 'basicDay');
+                    if (selectedNode) {
+                        $('#calendar').fullCalendar('gotoDate', start);
+                        $('#calendar').fullCalendar('changeView', 'basicDay');
+                    }
                 },
                 viewRender: function (view, element) {
-                    loadEvent();
+                    if (selectedNode && view.name === 'basicDay') {
+                        loadEvent();
+                    }
                 },
                 viewDestroy: function (view, element) {
                     $('#calendar').fullCalendar('removeEvents');

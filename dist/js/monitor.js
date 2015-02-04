@@ -52,11 +52,11 @@
             
             videojs('video_' + n + '_' + address).ready(function () {
                 this.play();
-                $('.video-js').height(self.width() * 9 / 16);
             });
-                        
-            $('.video-js').height($('.video-js').width() * 9 / 16);
+            
         });
+        
+        $('.video-js').height($('.video-js').width() * 9 / 16);
     }
     
     function hideMultiCamera() {
@@ -128,12 +128,6 @@
     $('.zoomin').on('hidden.bs.modal', function () {
         showMultiCamera($('#myTab .active a'));
     });
-
-    $('#myTab .dropdown-menu a').click(function (e) {
-        SIZE = $(this).attr('id');
-        showPage(0, SIZE);
-        $('.video-js').height($('.video-js').width() * 9 / 16);
-    });
     
     $('.pager .previous').click(function () {
         showPage(PAGE - 1, SIZE);
@@ -153,15 +147,9 @@
             
             div.attr('id', obj.group);
             obj.list.forEach(function (inner, innerindex, innerlist) {
-                var h5 = $('<h5></h5>'),
-                    innerdiv = $('<div class="col-md-2"><a class="thumbnail" data-toggle="modal" data-target=".zoomin"></a></div>'),
-                    jpeg = $('<img alt="...">');
-                h5.html(inner.title);
-                //jpeg.attr('src', URL_JPEG.replace("{address}", inner.address));
+                var innerdiv = $('<div class="col-md-2"><a class="thumbnail" data-toggle="modal" data-target=".zoomin"></a></div>');
                 innerdiv.find('a').attr('title', inner.title);
                 innerdiv.find('a').attr('address', inner.address);
-                //innerdiv.find('.thumbnail').append(jpeg);
-                //innerdiv.find('.thumbnail').append(h5);
                 div.find('.row').append(innerdiv);
             });
                 
@@ -189,6 +177,12 @@
             hideMultiCamera();
         });
             
+        $('#myTab .dropdown-menu a').click(function (e) {
+            SIZE = $(this).attr('id');
+            showPage(0, SIZE);
+            $('.video-js').height($('.video-js').width() * 9 / 16);
+        });
+        
         $('#myTab .pull-left a:last').tab('show');
         
         $('.thumbnail').click(function (e) {
