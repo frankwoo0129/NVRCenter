@@ -1,6 +1,6 @@
 /*jslint node: true */
 /*jslint nomen: true */
-
+/*jslint es5: true */
 "use strict";
 
 var path = require('path');
@@ -52,14 +52,12 @@ module.exports = function (app) {
                                 
                 // Group
                 all.group = 'all';
-                for (i = 0; i < 1; i = i + 1) {
-                    Object.keys(obj).forEach(function (address) {
-                        var o = {};
-                        o.address = address;
-                        o.title = obj[address].title;
-                        list.push(o);
-                    });
-                }
+                Object.keys(obj).forEach(function (address) {
+                    var o = {};
+                    o.address = address;
+                    o.title = obj[address].title;
+                    list.push(o);
+                });
                 all.list = list;
                 ret.push(all);
                 res.json(ret);
