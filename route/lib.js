@@ -1,5 +1,6 @@
 /*jslint node: true */
 /*jslint nomen: true */
+/*jslint es5: true */
 
 var fs = require('fs');
 var path = require('path');

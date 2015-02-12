@@ -9,9 +9,7 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
 
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cookieSession({
@@ -26,10 +24,14 @@ app.set('view engine', 'html');
 app.engine('html', hbs.__express);
 
 var route = require('./route')(app);
-var server = app.listen(8000);
+var server = app.listen(1234);
+
+var shutdown = function () {
+	server.close();
+	process.exit();
+};
 
 process.on('SIGINT', function () {
 	console.log("\nGracefully shutting down from SIGINT (Ctrl-C)");
-	server.close();
-	process.exit();
+	shutdown();
 });
