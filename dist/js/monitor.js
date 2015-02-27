@@ -1,15 +1,34 @@
 /*global $, jQuery, alert*/
 /*global videojs, videojs, alert*/
 /*global URL_CONFIGLIST, list, alert*/
+/*global InstallTrigger, firefox, alert*/
 /*jslint plusplus: true */
 
 (function () {
 	'use strict';
 	
-	var URL_JPEG = "./monitor/{address}/out.m3u8",
+	var URL_JPEG = "./{address}/monitor/out.m3u8",
 		players = {},
 		SIZE = 0,
-		PAGE = 0;
+		PAGE = 0,
+		
+		// Opera 8.0+ (UA detection to detect Blink/v8-powered Opera)
+		isOpera = !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0,
+		// Firefox 1.0+
+		isFirefox = typeof InstallTrigger !== 'undefined',
+		// At least Safari 3+: "[object HTMLElementConstructor]"
+		isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0,
+		// Chrome 1+
+		isChrome = !!window.chrome && !isOpera,
+		// At least IE6
+		/*@cc_on@*/
+		isIE = /*@true ||@*/ !!document.documentMode;
+	
+//	console.log('opera:' + isOpera);
+//	console.log('firefox:' + isFirefox);
+//	console.log('safari:' + isSafari);
+//	console.log('chrome:' + isChrome);
+//	console.log('IE:' + isIE);
 
 	function clearAllTimeout() {
 		var id = window.setTimeout(function () {}, 0);

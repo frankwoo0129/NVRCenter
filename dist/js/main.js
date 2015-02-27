@@ -16,19 +16,40 @@ var URL_CONFIGLIST = "./list";
 		}
 	}
 	
+	function init() {
+		$('header #navbar a[href="#monitor"]').tab('show');
+	}
+	
 	function checklogin(callback) {
 		$.getJSON(URL_AUTH, function (data) {
 			$('#login').modal('hide');
 			if (callback && typeof callback === 'function') {
 				callback();
+			} else {
+				init();
 			}
 		}).fail(function () {
+			$('#login form').submit(function (e) {
+				e.preventDefault();
+				var formdata = {};
+				formdata.user = $('form #inputUser').val();
+				formdata.password = $('form #inputPassword').val();
+				$.post(URL_AUTH, formdata, function (data) {
+					$('#login').modal('hide');
+					if (callback && typeof callback === 'function') {
+						callback();
+					} else {
+						init();
+					}
+				}).fail(function () {
+					alert("Auth ERROR");
+					$('form #inputUser').val('');
+					$('form #inputPassword').val('');
+					$('#login').modal('show');
+				});
+			});
 			$('#login').modal('show');
 		});
-	}
-	
-	function init() {
-		$('header #navbar a[href="#monitor"]').tab('show');
 	}
 	
 	$('#navbar a').click(function (e) {
@@ -40,15 +61,12 @@ var URL_CONFIGLIST = "./list";
 	});
 	
 	$('#navbar a').on('show.bs.tab', function (e) {
-//		alert($(e.target.hash).attr('id') + ' show');
 		var timestamp = Math.floor(+new Date());
-		console.log(e.target.hash);
 		$(e.target.hash).load($(e.target.hash).attr('id') + '?ts=' + timestamp);
 	});
 	
 	$('#navbar a').on('hide.bs.tab', function (e) {
 		clearAllTimeout();
-		$(e.target.hash).html("");
 	});
 	
 	$('#logout').click(function () {
@@ -63,18 +81,6 @@ var URL_CONFIGLIST = "./list";
 	});
 	
 	$(document).ready(function () {
-		$('#login form').submit(function (e) {
-			e.preventDefault();
-			var formdata = {};
-			formdata.user = $('form #inputUser').val();
-			formdata.password = $('form #inputPassword').val();
-			$.post(URL_AUTH, formdata, function (data) {
-				$('#login').modal('hide');
-				init();
-			}).fail(function () {
-				$('#login').modal('show');
-			});
-		});
 		checklogin();
 	});
 	

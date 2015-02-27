@@ -5,35 +5,31 @@
 
 var path = require('path');
 var express = require('express');
-
 var auth = require('./auth');
 var lib = require('./lib');
 var list = require('./list');
+var router = express.Router();
 
-module.exports = function (app) {
-	app.use('/lib', lib);
-	app.use(express.static(path.join(__dirname, '../dist/')));
-	
-	app.get('/', function (req, res) {
-		res.render('index');
-	});
+router.use('/lib', lib);
+router.use(express.static(path.join(__dirname, '../dist/')));
 
-	app.get('/monitor', function (req, res) {
-		res.render('monitor');
-	});
+router.get('/', function (req, res) {
+	res.render('index');
+});
+router.get('/monitor', function (req, res) {
+	res.render('monitor');
+});
+router.get('/admin', function (req, res) {
+	res.render('admin');
+});
+router.get('/video', function (req, res) {
+	res.render('video');
+});
 
-	app.get('/admin', function (req, res) {
-		res.render('admin');
-	});
+router.use(auth);
+router.use('/list', list);
+router.get('/:address/monitor/*', function (req, res) {
+	res.redirect('http://' + req.socket.localAddress + ':3000' + req.originalUrl);
+});
 
-	app.get('/video', function (req, res) {
-		res.render('video');
-	});
-
-	app.use(auth);
-	
-	app.use('/list', list);
-	app.get('/monitor/:address/*', function (req, res) {
-		res.redirect('http://' + req.socket.localAddress + ':3000' + req.originalUrl);
-	});
-};
+module.exports = router;

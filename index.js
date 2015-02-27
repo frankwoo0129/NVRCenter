@@ -2,12 +2,14 @@
 /*jslint nomen: true */
 "use strict";
 
-var express = require('express');
-var hbs = require('hbs');
-var app = express();
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var cookieSession = require('cookie-session');
+var express = require('express'),
+	hbs = require('hbs'),
+	bodyParser = require('body-parser'),
+	cookieParser = require('cookie-parser'),
+	cookieSession = require('cookie-session'),
+	route = require('./route'),
+	app = express(),
+	server;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -22,14 +24,14 @@ app.use(cookieSession({
 }));
 app.set('view engine', 'html');
 app.engine('html', hbs.__express);
+app.use(route);
 
-var route = require('./route')(app);
-var server = app.listen(1234);
+server = app.listen(1234);
 
-var shutdown = function () {
+function shutdown() {
 	server.close();
 	process.exit();
-};
+}
 
 process.on('SIGINT', function () {
 	console.log("\nGracefully shutting down from SIGINT (Ctrl-C)");
